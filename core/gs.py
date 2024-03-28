@@ -17,7 +17,7 @@ class GaussianRenderer:
     def __init__(self, opt: Options):
         
         self.opt = opt
-        self.bg_color = torch.tensor([1, 1, 1], dtype=torch.float32, device="cuda")
+        self.bg_color = torch.tensor([1, 1, 1], dtype=torch.float32)
         
         # intrinsics
         self.tan_half_fov = np.tan(0.5 * np.deg2rad(self.opt.fovy))
@@ -60,7 +60,7 @@ class GaussianRenderer:
                     image_width=self.opt.output_size,
                     tanfovx=self.tan_half_fov,
                     tanfovy=self.tan_half_fov,
-                    bg=self.bg_color if bg_color is None else bg_color,
+                    bg=(self.bg_color if bg_color is None else bg_color).to(device),
                     scale_modifier=scale_modifier,
                     viewmatrix=view_matrix,
                     projmatrix=view_proj_matrix,
